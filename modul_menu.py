@@ -1,13 +1,24 @@
 from entity import Entity
-from master_data import MasterData
+import csv
 
 class Menu(Entity):
-    def __init__(self, id_menu, price):
-        super().__init__(id)
-        self.id_menu = id_menu if id_menu else self.gen_id('menu_data.csv', 'M')
+
+    # filename = "menu_data.csv"
+    def __init__(self, name, price): #Constructor __init__
+        super().__init__()
+        self.name = name
         self.price = price
 
+    def add_menu(self):
+        print("[ ADD MENU ]")
+        id_menu = self.gen_id(self, "M")
 
-    def show_menu(self):
-        MasterData.show("menu_data.csv")
+        with open("menu_data.csv", 'a', newline='' ) as file_menu:
+            writer = csv.writer(file_menu)
+            writer.writerows([id_menu, self.name, self.price])
+        print("Success add menu")
+
+menu = Menu("Seblak", 100)
+menu.add_menu()
+print(menu)
 
