@@ -8,10 +8,10 @@ use inheritance concept (pewarisan)
 """
 class Entity:
     @staticmethod
-    def gen_id(self, prefix):
+    def gen_id(filename,prefix):
         last_num = 0
-        if os.path.exists(self.filename):
-            with open(self.filename, 'r') as file:
+        if os.path.exists(filename):
+            with open(filename, 'r') as file:
                 reader = csv.reader(file)
                 for row in reader:
                     if row and row[0].startswith(prefix):

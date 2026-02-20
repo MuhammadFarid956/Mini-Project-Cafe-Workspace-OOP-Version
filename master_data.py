@@ -10,14 +10,14 @@ class MasterData:
         self.headers = headers
 
     def show(self):
-        if not os.path.exists(filename):
+        if not os.path.exists(self.filename):
             print("Empty Data File")
             return
 
-        with open(filename, 'r') as file:
+        with open(self.filename, 'r') as file:
             reader = csv.reader(file)
             # Menampilkan header secara dinamis
-            format_header = "|".join([f"h:<15" for h in self.headers])
+            format_header = "|".join([f"{h:<15}" for h in self.headers])
             print(format_header)
             print("-"* len(format_header))
 
