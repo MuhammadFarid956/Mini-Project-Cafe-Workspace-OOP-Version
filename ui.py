@@ -1,4 +1,4 @@
-from io import Input
+# from io import Input
 from modul_menu import Menu
 
 
@@ -25,17 +25,17 @@ class Interface:
                         print("1. Add Menu\n2. Show Menu\n3. Update Menu\n4. Delete Menu\n5. Delete Menu\n6. Exit")
                         choice = input("Enter your choice : ")
                         if choice == "1":
-                            add = Input()
-                            add.inp_add()
+                            add = Menu()
+                            add.add_menu()
                         elif choice == "2":
                             show = Menu()
                             show.show_menu()
                         elif choice == "3":
-                            upd = Input()
-                            upd.inp_price()
+                            upd = Menu()
+                            upd.update_price()
                         elif choice == "4":
-                            dele = Input()
-                            dele.inp_delete()
+                            dlt = Menu()
+                            dlt.delete()
                         elif choice == "5":
                             continue
                         else:

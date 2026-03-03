@@ -16,6 +16,8 @@ class Menu(Entity, MasterData):
     def add_menu(self):
         print("===== ADD MENU =====")
         id_menu = self.id
+        self.name = input("Menu Name : ")
+        self.price = int(input("Menu Price : "))
 
         with open("menu_data.csv", 'a', newline='' ) as file_menu:
             writer = csv.writer(file_menu)
@@ -28,11 +30,13 @@ class Menu(Entity, MasterData):
 
     def update_price(self):
         print("===== UPDATE MENU =====")
-        self.show_menu()
-
         temporary_data = []
+        self.show_menu()
+        # target = None
         found = False
-        target = None
+        target = input("Target ID : ")
+        self.price = input("Menu Price : ").upper()
+
         try:
             with open(self.filename, 'r') as file_menu:
                 reader = csv.reader(file_menu)
@@ -46,7 +50,7 @@ class Menu(Entity, MasterData):
             print("File not found")
 
         if found:
-            with open(self.filename, 'w') as file_menu:
+            with open(self.filename, 'w', newline='') as file_menu:
                 writer = csv.writer(file_menu)
                 writer.writerow(temporary_data)
             print("Success update price")
@@ -55,12 +59,16 @@ class Menu(Entity, MasterData):
 
     def delete_menu(self):
         print("===== DELETE MENU =====")
-        self.delete(self.id)
+        target = input("ID Menu : ")
+        self.delete(target)
 
 
 
 
-
+t = Menu()
+# t.add_menu()
+# t.show_menu()
+t.update_price()
 
 # menu = Menu("Seblak", 100)
 # menu.add_menu()
