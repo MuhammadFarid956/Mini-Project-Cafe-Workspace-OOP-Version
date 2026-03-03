@@ -4,7 +4,6 @@ import csv
 
 class Menu(Entity, MasterData):
 
-    # filename = "menu_data.csv"
     def __init__(self, name=None, price=None):
         MasterData.__init__(self,"menu_data.csv", ["ID", "Menu", "Price"])#Constructor __init__
         self.filename = "menu_data.csv"
@@ -35,7 +34,7 @@ class Menu(Entity, MasterData):
         # target = None
         found = False
         target = input("Target ID : ")
-        self.price = input("Menu Price : ").upper()
+        new_price = input("Menu Price : ").upper()
 
         try:
             with open(self.filename, 'r') as file_menu:
@@ -43,7 +42,8 @@ class Menu(Entity, MasterData):
                 for row in reader:
                     if row[0] == target:
                         print(f"Old Data : {row[1]} : Rp. {row[2]}")
-                        print("Update Price : Rp.")
+                        row[2] = new_price
+                        print(f"Update Price : Rp. {row[2]}")
                         found = True
                     temporary_data.append(row)
         except FileNotFoundError:
@@ -52,7 +52,7 @@ class Menu(Entity, MasterData):
         if found:
             with open(self.filename, 'w', newline='') as file_menu:
                 writer = csv.writer(file_menu)
-                writer.writerow(temporary_data)
+                writer.writerows(temporary_data)
             print("Success update price")
         else:
             print("ID not found")
@@ -65,10 +65,11 @@ class Menu(Entity, MasterData):
 
 
 
-t = Menu()
+
+# t = Menu()
 # t.add_menu()
 # t.show_menu()
-t.update_price()
+# t.update_price()
 
 # menu = Menu("Seblak", 100)
 # menu.add_menu()

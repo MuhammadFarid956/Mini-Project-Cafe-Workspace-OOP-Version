@@ -35,7 +35,7 @@ class Interface:
                             upd.update_price()
                         elif choice == "4":
                             dlt = Menu()
-                            dlt.delete()
+                            dlt.delete_menu()
                         elif choice == "5":
                             continue
                         else:
