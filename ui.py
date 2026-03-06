@@ -1,47 +1,47 @@
 # from io import Input
 from modul_menu import Menu
+from modul_paket import PackageManager
 
 
-class Interface:
-    @staticmethod
-    def menu():
-        while True:
-            print("===== Cafe Workspace OOP Version =====")
-            print("1. Manager")
-            print("2. Transaction")
-            print("3. Exit")
-            choice = input("Enter your choice : ")
 
-            if choice == "1":
-                while True:
-                    print("===== Manager Menu =====")
-                    print("1. Menu Cafe Workspace")
-                    print("2. Paket Cafe Workspace")
-                    print("3. Visitor Cafe Workspace")
-                    print("4. Back")
+class CafeApp:
+    def __init__(self):
+        self.menu_mgr = Menu()
+        self.package_mgr = PackageManager()
+
+    def master_data(self):
+        try:
+            while True:
+                print("===== Master Data =====")
+                print("1. Menu\n2. Package\n3. Visitor\n4. Back")
+                choice = input("Enter your choice : ")
+
+                if choice == "1":
+                    if choice == "1":
+                        print("===== Master Menu =====")
+                        print("1. Add Menu\n2. Show Menu\n3. Update Menu\n4. Delete Menu\n5. Back")
+                        choice = input("Enter your choice : ")
+                        if choice == "1": self.menu_mgr.add()
+                        elif choice == "2": self.menu_mgr.show()
+                        elif choice == "3": self.menu_mgr.update()
+                        elif choice == "4": self.menu_mgr.delete()
+                elif choice == "2":
+                    print("===== Master Package =====")
+                    print("1. Add Package\n2. Show Package\n3. Update Package\n4. Delete Package\n5. Back")
                     choice = input("Enter your choice : ")
                     if choice == "1":
-                        print("===== Menu Manager =====")
-                        print("1. Add Menu\n2. Show Menu\n3. Update Menu\n4. Delete Menu\n5. Delete Menu\n6. Exit")
-                        choice = input("Enter your choice : ")
-                        if choice == "1":
-                            add = Menu()
-                            add.add_menu()
-                        elif choice == "2":
-                            show = Menu()
-                            show.show_menu()
-                        elif choice == "3":
-                            upd = Menu()
-                            upd.update_price()
-                        elif choice == "4":
-                            dlt = Menu()
-                            dlt.delete_menu()
-                        elif choice == "5":
-                            continue
-                        else:
-                            print("Invalid Choice")
+                        self.package_mgr.add()
+                    elif choice == "2":
+                        self.package_mgr.show()
+                    elif choice == "3":
+                        self.package_mgr.update()
+                    elif choice == "4":
+                        self.package_mgr.delete()
+        except ValueError:
+            print("Invalid Choice")
+
 
 if __name__ == '__main__':
-    run = Interface()
-    run.menu()
+    app = CafeApp()
+    app.master_data()
 
