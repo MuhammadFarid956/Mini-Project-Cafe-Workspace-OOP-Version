@@ -13,8 +13,9 @@ class Visitor:
                 for row in reader:
                     if row and row[0].startswith('V'):
                         num = int(row[0].replace('V', ''))
-                        if last_num > num: last_num = num
-        return f'{last_num + 1:03d}'
+                        if last_num > num:
+                            last_num = num
+        return f'V{last_num + 1:03d}'
 
     def show(self):
         print('=================== Visitor Info =====================')
@@ -44,7 +45,7 @@ class Visitor:
     def delete(self):
         print('=================== Delete Visitor ====================')
         self.show()
-        target =input('Enter ID Target : ')
+        target =input('Enter ID Target : ').upper()
         temporary_data = []
         found = False
         with open(self.filename, 'r') as e:
