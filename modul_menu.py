@@ -100,7 +100,7 @@ class Menu:
         name = input('Name : ')
         price = int(input('Price :'))
 
-        with open(self.filename, 'a') as menu_file:
+        with open(self.filename, 'a', newline='') as menu_file:
             writer = csv.writer(menu_file)
             writer.writerow([id_menu, name, price])
         print('Successfully Added Menu')
@@ -108,7 +108,7 @@ class Menu:
     def update(self):
         print('\n==================== Update Menu ====================')
         self.show()
-        id_target = input('ID :')
+        id_target = input('ID :').upper()
         temporary_data = []
 
         if not os.path.exists(self.filename):
@@ -134,7 +134,7 @@ class Menu:
                 temporary_data.append(row)
 
         if found:
-            with open(self.filename, 'a') as menu_file:
+            with open(self.filename, 'w', newline='') as menu_file:
                 writer = csv.writer(menu_file)
                 writer.writerows(temporary_data)
             print('Successfully Updated Menu')

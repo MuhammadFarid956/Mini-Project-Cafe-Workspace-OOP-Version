@@ -51,7 +51,7 @@ class PackageManager:
                 for row in reader:
                     if row and row[0].startswith('P'):
                         num = int(row[0].replace('P', ''))
-                        if last_num > num:
+                        if num > last_num:
                             last_num = num
         return f'P{last_num + 1:03d}'
 
@@ -75,7 +75,7 @@ class PackageManager:
         name = input('Enter Package Name: ')
         type_pack = input('Enter Package Type: ')
         min_order = int(input('Enter Package Min Order/Person: '))
-        capacity = input('Enter Package Capacity: ')
+        capacity = int(input('Enter Package Capacity: '))
         duration = int(input('Enter Package Duration: '))
         price = int(input('Enter Package Price: '))
 
@@ -94,26 +94,29 @@ class PackageManager:
             reader = csv.reader(p)
             for row in reader:
                 if row and row[0] == target:
-                    name = input('Enter Package Name: ')
-                    type_pack = input('Enter Package Type: ')
-                    min_order = int(input('Enter Package Min Order/Person: '))
-                    capacity = input('Enter Package Capacity: ')
-                    duration = int(input('Enter Package Duration: '))
-                    price = int(input('Enter Package Price: '))
+                    print(f'================= Package Information =================')
+                    print(f'Name : {row[1]}\n2. Type : {row[2]}\nMin Order/Person : {row[3]}\nCapacity : {row[4]}\nDuration : {row[5]}\nPrice : {row[6]}')
 
-                    if name: row[1] = name
-                    if type_pack: row[2] = type_pack
-                    if min_order: row[3] = min_order
-                    if capacity: row[4] = capacity
-                    if duration: row[5] = duration
-                    if price: row[6] = price
+                    new_min_order = int(input('Enter Package Min Order/Person (Click Enter to Continue): '))
+                    new_capacity = int(input('Enter Package Capacity (Click Enter to Continue): '))
+                    new_duration = int(input('Enter Package Duration (Click Enter to Continue): '))
+                    new_price = int(input('Enter Package Price (Click Enter to Continue): '))
+
+                    if new_min_order > 0:
+                        row[3] = new_min_order
+                    if new_capacity > 0:
+                        row[4] = new_capacity
+                    if new_duration > 0:
+                        row[5] = new_duration
+                    if new_price > 0:
+                        row[6] = new_price
                     found = True
                 temporary_data.append(row)
 
         if found:
             with open(self.filename, 'w', newline='') as p:
                 writer = csv.writer(p)
-                writer.writerow(temporary_data)
+                writer.writerows(temporary_data)
             print('Package Updated')
         else:
             print('Package Not Found')

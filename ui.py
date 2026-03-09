@@ -75,7 +75,7 @@ class CafeApp:
                 print('Thank You, Good Bye!')
                 break
             else:
-                print("Invalid Choice")
+                print("Invalid Choice: Please Input (1/2/3)")
 
 
 
