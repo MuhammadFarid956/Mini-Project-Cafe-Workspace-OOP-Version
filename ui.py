@@ -28,6 +28,7 @@ class CafeApp:
                         elif choice == "2": self.menu_mgr.show()
                         elif choice == "3": self.menu_mgr.update()
                         elif choice == "4": self.menu_mgr.delete()
+                        elif choice == "5": continue
                 elif choice == "2":
                     print("===== Master Package =====")
                     print("1. Add Package\n2. Show Package\n3. Update Package\n4. Delete Package\n5. Back")
@@ -51,6 +52,8 @@ class CafeApp:
                         self.visitor.add()
                     elif choice == "3":
                         self.visitor.delete()
+                elif choice == "4":
+                    return
         except ValueError:
             print("Invalid Choice")
 

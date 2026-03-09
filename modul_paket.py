@@ -95,21 +95,21 @@ class PackageManager:
             for row in reader:
                 if row and row[0] == target:
                     print(f'================= Package Information =================')
-                    print(f'Name : {row[1]}\n2. Type : {row[2]}\nMin Order/Person : {row[3]}\nCapacity : {row[4]}\nDuration : {row[5]}\nPrice : {row[6]}')
+                    print(f'Name : {row[1]}\nType : {row[2]}\nMin Order/Person : {row[3]}\nCapacity : {row[4]}\nDuration : {row[5]}\nPrice : {row[6]}')
 
-                    new_min_order = int(input('Enter Package Min Order/Person (Click Enter to Continue): '))
-                    new_capacity = int(input('Enter Package Capacity (Click Enter to Continue): '))
-                    new_duration = int(input('Enter Package Duration (Click Enter to Continue): '))
-                    new_price = int(input('Enter Package Price (Click Enter to Continue): '))
+                    new_min_order = input('Enter Package Min Order/Person (Click Enter to Continue): ')
+                    new_capacity = input('Enter Package Capacity (Click Enter to Continue): ')
+                    new_duration = input('Enter Package Duration (Click Enter to Continue): ')
+                    new_price = input('Enter Package Price (Click Enter to Continue): ')
 
-                    if new_min_order > 0:
-                        row[3] = new_min_order
-                    if new_capacity > 0:
-                        row[4] = new_capacity
-                    if new_duration > 0:
-                        row[5] = new_duration
-                    if new_price > 0:
-                        row[6] = new_price
+                    if len(new_min_order )> 0:
+                        row[3] = int(new_min_order)
+                    if len(new_capacity) > 0:
+                        row[4] = int(new_capacity)
+                    if len(new_duration) > 0:
+                        row[5] = int(new_duration)
+                    if len(new_price)> 0:
+                        row[6] = int(new_price)
                     found = True
                 temporary_data.append(row)
 
@@ -127,6 +127,11 @@ class PackageManager:
         target = input('Enter Package ID: ').upper()
         temporary_data = []
         found = False
+
+        if not os.path.exists(self.filename):
+            print('File Not Found')
+            return
+
         with open(self.filename, 'r') as p:
             reader = csv.reader(p)
             for row in reader:
@@ -135,10 +140,10 @@ class PackageManager:
                     continue
                 temporary_data.append(row)
 
-        if found:
+        if found and input('Confirm Delete Package? y/n').lower() =='y':
             with open(self.filename, 'w', newline='') as p:
                 writer = csv.writer(p)
-                writer.writerow(temporary_data)
+                writer.writerows(temporary_data)
             print('Package Deleted')
         else:
             print('Package Not Found')

@@ -13,7 +13,7 @@ class Visitor:
                 for row in reader:
                     if row and row[0].startswith('V'):
                         num = int(row[0].replace('V', ''))
-                        if last_num > num:
+                        if num > last_num:
                             last_num = num
         return f'V{last_num + 1:03d}'
 
@@ -27,7 +27,7 @@ class Visitor:
             print(f'{"ID":<5} | {"Name":<20} | {"No HP":<12} | {"Instance":<20}')
             for row in reader:
                 if row:
-                    print(f'{row[0]:<5} {row[1]:<20} {row[2]:<12} | {row[3]:<20}')
+                    print(f'{row[0]:<5} | {row[1]:<20} | {row[2]:<12} | {row[3]:<20}')
 
     def add(self):
         print('=================== Add Visitor ======================')
