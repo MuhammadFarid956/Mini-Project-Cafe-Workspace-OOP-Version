@@ -20,13 +20,9 @@ class Transaction:
         return None
 
     def loockup_menu(self, id_menu):
-        if not os.path.exists(self.menu_mgr.filename):
-            return 0
-        with open(self.menu_mgr.filename, 'r') as e:
-            reader = csv.reader(e)
-            for row in reader:
-                if row and row[0] == id_menu:
-                    return int(row[2])
+        #Langsung ambil dari RAM (O(1)), tidak perlu buka CSV lagi!
+        if id_menu in self.menu_mgr.menus:
+            return self.menu_mgr.menus[id_menu]['Price']
         return 0
 
     def show(self):
@@ -40,12 +36,13 @@ class Transaction:
             print('-'*120)
             for row in reader:
                 if row:
-                    print(f'{row[0]:<14} | {row[1]:<11} | {row[2]:<10} | {row[3]:<10} | {row[4]:<9} | {row[5]:<3} | {row[6]:<20} | {row[7]:>7}')
+                    print(f'{row[0]:<14} | {row[1]:<11} | VST: {row[2]:<10} | PKG: {row[3]:<10} | Rp {row[7]:,}')
 
     def receipt_trc(self):
         print('\n=============================== Transaction Details ==========================')
         if not os.path.exists(self.filename):
             print()
+
     def transaction_process(self):
         try:
             id_transaction = datetime.datetime.now().strftime('T%y%m%d%H%M%S')
@@ -55,38 +52,46 @@ class Transaction:
 
             self.pack_mgr.show()
             id_package = input('Enter ID Package: ').upper()
+
+            #Pengecekan data langsung dari RAM (O(0)) tanpa buka file CSV!
+            if id_package not in self.pack_mgr.packages:
+                return print('Package Not Found')
+
+            package = self.pack_mgr.packages[id_package]
             num_person = int(input('Enter Number of Person: '))
 
-            package = self.loockup_package(id_package)
-            if not package:
-                return print('No package found')
-            type_package = package[2]
+            type_package = package['type']
             total= 0
             item_menu = ''
 
             if type_package == 'Non Rent':
-                min_order_per_person = int(package[3])
-                min_total = min_order_per_person * num_person
+                min_total = package['min_order'] * num_person
                 self.menu_mgr.show()
                 print(f'Minimum Order : {min_total:,}')
+
                 items = input('Enter the number of items (pisah dengan tanda koma): ').strip().upper()
                 item_ids = [x.strip() for x in items.split(',') if x.strip()]
                 item_menu = ';'.join(item_ids)
 
                 for mid in item_ids:
-                    total += self.loockup_menu(mid)
+                    if mid in self.menu_mgr.menus:
+                        total += self.menu_mgr.menus[mid]['price']
+                    else:
+                        print('Menu Not Found')
+
                 if total < min_total:
                     return print(f'Total Order = {total:,}, les than  Minimum Order : {min_total:,}')
 
             else:
-                total = int(package[6]) * num_person
+                total = int(package['price']) * num_person
 
             with open(self.filename, 'a', newline='') as e:
                 writer = csv.writer(e)
                 writer.writerow([id_transaction, date_transaction, id_vst, id_package, type_package, num_person, item_menu, total])
-                print('===================== Transaction Details =======================')
-                print(f'ID Transaction : {id_transaction}\nDate : {date_transaction}')
-                print('-'*120)
+
+            print('===================== Transaction Details =======================')
+            print(f'ID Transaction : {id_transaction}\nDate : {date_transaction}')
+            print('-'*120)
             print('Transaction Process Complete')
         except ValueError:
             print(f'Input Invalid. Please try again.')

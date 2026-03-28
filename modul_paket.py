@@ -1,73 +1,49 @@
-# from entity import Entity
-# from master_data import MasterData
-# import csv
-#
-# class Paket(Entity, MasterData):
-#     def __init__(self, package, type_pack, minimum_order, price):
-#         MasterData.__init__(self, "paket_data.csv", ["ID", "Package Name", "Type", "min_order/org", "Price Paket"])
-#         self.filename = "paket_data.csv"
-#         self.prefix = "P"
-#         self.package_name = package
-#         self.type = type_pack
-#         self.min = minimum_order
-#         self.price = price
-#         self.id = Entity.gen_id(self.filename, self.prefix)
-#
-#     def add_package(self):
-#         print("==== Add Package ====")
-#         id_pack = self.id
-#         self.package_name = input("Package Name: ")
-#         self.type = input("Package Type: ")
-#         self.min = input("Minimum Order: ")
-#         self.price = input("Price: ")
-#
-#         with open(self.filename, "a", newline='') as file:
-#             writer = csv.writer(file)
-#             writer.writerow([id_pack, self.package_name, self.type, self.min, self.price])
-#         print("Successfully Added Package")
-#
-#     def show_pack(self):
-#         print("===== Show Pack ====")
-#         super().show()
-#
-#
-# if __name__ == "__main__":
-#     paket = Paket("Paket", "Paket", 1, 100)
-#     paket.add_package()
-#     print(paket.__dict__)
-
 import csv
 import os
 
 class PackageManager:
     def __init__(self, filename='paket_data.csv'):
         self.filename = filename
+        self.packages = {}
+        self.last_id = 0
+        self.load_data()
+
+    def load_data(self):
+        if os.path.exists(self.filename):
+            with open(self.filename, 'r') as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    if row:
+                        p_id = row[0]
+                        self.packages[p_id] = {
+                            'name' : row[1], 'type' : row[2],
+                            'min_order' : int(row[3]), 'capacity' : int(row[4]),
+                            'duration' : int(row[5]), 'price' : int(row[6])
+                        }
+                        num = int(p_id.replace('P', ''))
+                        if num > self.last_id:
+                            self.last_id = num
 
     def next_id(self):
-        last_num = 0
-        if os.path.exists(self.filename):
-            with open(self.filename, 'r') as p:
-                reader = csv.reader(p)
-                for row in reader:
-                    if row and row[0].startswith('P'):
-                        num = int(row[0].replace('P', ''))
-                        if num > last_num:
-                            last_num = num
-        return f'P{last_num + 1:03d}'
+        self.last_id += 1
+        return f'P{self.last_id:03d}'
+
+    def save_data(self):
+        with open(self.filename, 'w', newline='') as file:
+            writer = csv.writer(file)
+            for p_id, data in self.packages.items():
+                writer.writerow([p_id, data['name'], data['type'], data['min_order'], data['capacity'], data['duration'], data['price']])
 
     def show(self):
         print('================= Package =================')
-        if not os.path.exists(self.filename):
-            print('File Not Found')
+        if not self.packages:
+            print('Package Not Found')
             return
 
-        with open(self.filename, 'r') as p:
-            reader = csv.reader(p)
-            print(f'{"ID":<5} | {"Name":<20} | {"Type":<10} | {"Min Order/Person":<20} | {"Capacity":<10} | {"Duration":<10} | {"Price":>12}')
-            print('='*106)
-            for row in reader:
-                if row:
-                    print(f'{row[0]:<5} | {row[1]:<20} | {row[2]:<10} | {row[3]:<20} | {row[4]:<10} | {row[5]:<10} | {row[6]:>12}')
+        print(f'{"ID":<5} | {"Name":<20} | {"Type":<10} | {"Min Order/Person":<20} | {"Price":>12}')
+        print('='*80)
+        for p_id, data in self.packages.items():
+            print(f'{p_id:<5} | {data["name"]:<20} | {data["type"]:<10} | {data["min_order"]:<16} | {data["price"]:>12}')
 
     def add(self):
         print('================= Add Package =================')
@@ -79,44 +55,38 @@ class PackageManager:
         duration = int(input('Enter Package Duration: '))
         price = int(input('Enter Package Price: '))
 
-        with open(self.filename, 'a', newline='') as p:
-            writer = csv.writer(p)
-            writer.writerow([id_package, name, type_pack, min_order, capacity, duration, price])
+        self.packages[id_package] = {
+            'name' : name, 'type' : type_pack,
+            'min_order' : min_order, 'capacity' : capacity,
+            'duration' : duration, 'price' : price
+        }
+        self.save_data()
         print('Package Added')
 
     def update(self):
         print('================== Update Package =================')
         self.show()
-        target =input('Enter Package ID: ').upper()
-        temporary_data = []
-        found = False
-        with open(self.filename, 'r') as p:
-            reader = csv.reader(p)
-            for row in reader:
-                if row and row[0] == target:
-                    print(f'================= Package Information =================')
-                    print(f'Name : {row[1]}\nType : {row[2]}\nMin Order/Person : {row[3]}\nCapacity : {row[4]}\nDuration : {row[5]}\nPrice : {row[6]}')
+        id_target =input('Enter Package ID: ').upper()
 
-                    new_min_order = input('Enter Package Min Order/Person (Click Enter to Continue): ')
-                    new_capacity = input('Enter Package Capacity (Click Enter to Continue): ')
-                    new_duration = input('Enter Package Duration (Click Enter to Continue): ')
-                    new_price = input('Enter Package Price (Click Enter to Continue): ')
+        if id_target in self.packages:
+            package = self.packages[id_target]
+            print(f'================= Package Information =================')
+            print(f'Name : {package["name"]}\nType : {package["type"]}\nMin Order/Person : {package["min_order"]}\nCapacity : {package["capacity"]}\nDuration : {package["duration"]}\nPrice : {package["price"]}')
 
-                    if len(new_min_order )> 0:
-                        row[3] = int(new_min_order)
-                    if len(new_capacity) > 0:
-                        row[4] = int(new_capacity)
-                    if len(new_duration) > 0:
-                        row[5] = int(new_duration)
-                    if len(new_price)> 0:
-                        row[6] = int(new_price)
-                    found = True
-                temporary_data.append(row)
+            new_min_order = input('Enter Package Min Order/Person (Click Enter to Continue): ')
+            new_capacity = input('Enter Package Capacity (Click Enter to Continue): ')
+            new_duration = input('Enter Package Duration (Click Enter to Continue): ')
+            new_price = input('Enter Package Price (Click Enter to Continue): ')
 
-        if found:
-            with open(self.filename, 'w', newline='') as p:
-                writer = csv.writer(p)
-                writer.writerows(temporary_data)
+            if new_min_order:
+                self.packages[id_target] = int(new_min_order)
+            if new_capacity:
+                self.packages[id_target] = int(new_capacity)
+            if new_duration:
+                self.packages[id_target] = int(new_duration)
+            if new_price:
+                self.packages[id_target] = int(new_price)
+            self.save_data()
             print('Package Updated')
         else:
             print('Package Not Found')
@@ -125,32 +95,10 @@ class PackageManager:
         print('================== Delete Package ===============')
         self.show()
         target = input('Enter Package ID: ').upper()
-        temporary_data = []
-        found = False
-
-        if not os.path.exists(self.filename):
-            print('File Not Found')
-            return
-
-        with open(self.filename, 'r') as p:
-            reader = csv.reader(p)
-            for row in reader:
-                if row and row[0] == target:
-                    found = True
-                    continue
-                temporary_data.append(row)
-
-        if found and input('Confirm Delete Package? y/n').lower() =='y':
-            with open(self.filename, 'w', newline='') as p:
-                writer = csv.writer(p)
-                writer.writerows(temporary_data)
-            print('Package Deleted')
+        if target in self.packages:
+            if input('Do you want to delete this package? (y/n): ').lower() == 'y':
+                del self.packages[target]
+                self.save_data()
+                print('Package Deleted')
         else:
             print('Package Not Found')
-
-
-
-
-
-
-

@@ -1,27 +1,27 @@
 #
 #
-# from modul_menu import Menu
+# from modul_menu import MenuManager
 #
-# # Modul Menu
-# class Input(Menu):
+# # Modul MenuManager
+# class Input(MenuManager):
 #
 #     @staticmethod
 #     def inp_add():
-#         name = input("Menu Name : ")
-#         price = int(input("Menu Price : "))
-#         menu = Menu()
+#         name = input("MenuManager Name : ")
+#         price = int(input("MenuManager Price : "))
+#         menu = MenuManager()
 #         menu.add_menu()
 #
 #     @staticmethod
 #     def inp_price():
-#         price = int(input("Menu Price : "))
-#         menu = Menu(price)
+#         price = int(input("MenuManager Price : "))
+#         menu = MenuManager(price)
 #         menu.update_price()
 #
 #     @staticmethod
 #     def inp_delete():
-#         target = input("ID Menu : ")
-#         menu = Menu()
+#         target = input("ID MenuManager : ")
+#         menu = MenuManager()
 #         menu.delete(target)
 #
 #

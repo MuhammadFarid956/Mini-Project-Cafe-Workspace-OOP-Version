@@ -1,11 +1,11 @@
-from modul_menu import Menu
+from modul_menu import MenuManager
 from modul_paket import PackageManager
 from modul_visitor import Visitor
 from transaction import Transaction
 
 class CafeApp:
     def __init__(self):
-        self.menu_mgr = Menu()
+        self.menu_mgr = MenuManager()
         self.package_mgr = PackageManager()
         self.visitor = Visitor()
         self.transaction = Transaction(self.menu_mgr, self.package_mgr, self.visitor)
@@ -16,13 +16,13 @@ class CafeApp:
         try:
             while True:
                 print("===== Master Data =====")
-                print("1. Menu\n2. Package\n3. Visitor\n4. Back")
+                print("1. MenuManager\n2. Package\n3. Visitor\n4. Back")
                 choice = input("Enter your choice : ")
 
                 if choice == "1":
                     if choice == "1":
-                        print("===== Master Menu =====")
-                        print("1. Add Menu\n2. Show Menu\n3. Update Menu\n4. Delete Menu\n5. Back")
+                        print("===== Master MenuManager =====")
+                        print("1. Add MenuManager\n2. Show MenuManager\n3. Update MenuManager\n4. Delete MenuManager\n5. Back")
                         choice = input("Enter your choice : ")
                         if choice == "1": self.menu_mgr.add()
                         elif choice == "2": self.menu_mgr.show()
@@ -59,7 +59,7 @@ class CafeApp:
 
     def run(self):
         while True:
-            print("===== Main Menu =====")
+            print("===== Main MenuManager =====")
             print('1. Manager\n2. Transaction\n3. Exit')
             choice = input("Enter your choice : ")
 
