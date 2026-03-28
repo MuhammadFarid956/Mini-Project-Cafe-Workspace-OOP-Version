@@ -87,8 +87,6 @@ class Transaction:
                 print('===================== Transaction Details =======================')
                 print(f'ID Transaction : {id_transaction}\nDate : {date_transaction}')
                 print('-'*120)
-                for row
-
             print('Transaction Process Complete')
         except ValueError:
             print(f'Input Invalid. Please try again.')
