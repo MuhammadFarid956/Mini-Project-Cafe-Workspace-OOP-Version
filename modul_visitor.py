@@ -33,7 +33,7 @@ class Visitor:
         print('=================== Visitor Info =====================')
         print(f'{"ID":<5} | {"Name":<20} | {"No HP":<12} | {"Instance":<20}')
         for v_id, data in self.visitors.items():
-        print(f'{v_id:<5} | {data["name"]:<20} | {data["no_hp"]:<12} | {data["instance"]:<20}')
+            print(f'{v_id:<5} | {data["name"]:<20} | {data["no_hp"]:<12} | {data["instance"]:<20}')
 
     def add(self):
         print('=================== Add Visitor ======================')

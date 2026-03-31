@@ -20,38 +20,31 @@ class CafeApp:
                 choice = input("Enter your choice : ")
 
                 if choice == "1":
-                    if choice == "1":
-                        print("===== Master MenuManager =====")
-                        print("1. Add MenuManager\n2. Show MenuManager\n3. Update MenuManager\n4. Delete MenuManager\n5. Back")
-                        choice = input("Enter your choice : ")
-                        if choice == "1": self.menu_mgr.add()
-                        elif choice == "2": self.menu_mgr.show()
-                        elif choice == "3": self.menu_mgr.update()
-                        elif choice == "4": self.menu_mgr.delete()
-                        elif choice == "5": continue
+                    print("===== Master MenuManager =====")
+                    print("1. Add Menu\n2. Show Menu\n3. Update Menu\n4. Delete Menu\n5. Back")
+                    choice = input("Enter your choice (1-5): ")
+                    if choice == "1": self.menu_mgr.add()
+                    elif choice == "2": self.menu_mgr.show()
+                    elif choice == "3": self.menu_mgr.update()
+                    elif choice == "4": self.menu_mgr.delete()
+                    elif choice == "5": continue
                 elif choice == "2":
                     print("===== Master Package =====")
                     print("1. Add Package\n2. Show Package\n3. Update Package\n4. Delete Package\n5. Back")
-                    choice = input("Enter your choice : ")
-                    if choice == "1":
-                        self.package_mgr.add()
-                    elif choice == "2":
-                        self.package_mgr.show()
-                    elif choice == "3":
-                        self.package_mgr.update()
-                    elif choice == "4":
-                        self.package_mgr.delete()
+                    choice = input("Enter your choice (1-5): ")
+
+                    if choice == "1": self.package_mgr.add()
+                    elif choice == "2":self.package_mgr.show()
+                    elif choice == "3":self.package_mgr.update()
+                    elif choice == "4":self.package_mgr.delete()
+                    elif choice == "5": continue
                 elif choice == "3":
                     print("===== Master Visitor =====")
-                    print('1. Show Visitor\n2. Add Visitor\n3. Delete Visitor\n4. Back')
-                    choice = input("Enter your choice : ")
+                    print('1. Show Visitor\n2. Back')
+                    choice = input("Enter your choice (1-2): ")
 
-                    if choice == "1":
-                        self.visitor.show()
-                    elif choice == "2":
-                        self.visitor.add()
-                    elif choice == "3":
-                        self.visitor.delete()
+                    if choice == "1":self.visitor.show()
+                    elif choice == "2": continue
                 elif choice == "4":
                     return
         except ValueError:
@@ -79,9 +72,6 @@ class CafeApp:
                 break
             else:
                 print("Invalid Choice: Please Input (1/2/3)")
-
-
-
 
 if __name__ == '__main__':
     app = CafeApp()

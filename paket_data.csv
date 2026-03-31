@@ -1,3 +1,4 @@
 P001,Single,Non Rent,18000,1,24,0
 P002,Double,Non Rent,15000,2,24,0
 P003,Group,Non Rent,12000,3,24,0
+P004,One Day,Rent,0,1,24,12000

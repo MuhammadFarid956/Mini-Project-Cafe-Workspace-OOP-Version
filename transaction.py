@@ -9,22 +9,6 @@ class Transaction:
         self.pack_mgr = package_mgr
         self.vst_mgr = visitor_mgr
 
-    def loockup_package(self, id_package):
-        if not os.path.exists(self.pack_mgr.filename):
-            return None
-        with open(self.pack_mgr.filename, 'r') as p:
-            reader =  csv.reader(p)
-            for row in reader:
-                if row and row[0] == id_package:
-                    return row
-        return None
-
-    def loockup_menu(self, id_menu):
-        #Langsung ambil dari RAM (O(1)), tidak perlu buka CSV lagi!
-        if id_menu in self.menu_mgr.menus:
-            return self.menu_mgr.menus[id_menu]['Price']
-        return 0
-
     def show(self):
         print('\n================================ Transaction Details ==========================')
         if not os.path.exists(self.filename):
@@ -32,12 +16,12 @@ class Transaction:
             return
         with open(self.filename, 'r') as e:
             reader = csv.reader(e)
-            print(f'{"ID":<14} | {"Date":<11} | {"ID Visitor":<6} | {"ID Package":<5} | {"Type":<9} | {"num":<2} | {"Items":<20} |Rp {"total":>7}')
-            print('-'*120)
+            print(f'{"ID":<14} | {"Date":<11} | {"ID Visitor":<6} | {"ID Package":<5} | {"Total":>7}')
+            print('-'*80)
             for row in reader:
                 if row:
-                    print(f'{row[0]:<14} | {row[1]:<11} | VST: {row[2]:<10} | PKG: {row[3]:<10} | Rp {row[7]:,}')
-
+                    print(f'{row[0]:<14} | {row[1]:<11} | {row[2]:<10} | {row[3]:<10} | Rp {int(row[7]):,}')
+            print('-' * 80)
     def receipt_trc(self):
         print('\n=============================== Transaction Details ==========================')
         if not os.path.exists(self.filename):
@@ -91,7 +75,7 @@ class Transaction:
 
             print('===================== Transaction Details =======================')
             print(f'ID Transaction : {id_transaction}\nDate : {date_transaction}')
-            print('-'*120)
+            print('-'*80)
             print('Transaction Process Complete')
         except ValueError:
             print(f'Input Invalid. Please try again.')
